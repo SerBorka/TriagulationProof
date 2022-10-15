@@ -2,6 +2,7 @@
 #include <vector>
 #include "List.h"
 #include <algorithm>
+
 /*
 // В массиве coords записаны последовательно координаты многоугольника x,y по парам, то есть x и y на позициях разной четности.
 // Необходимо, чтобы они составляли многоугольник и были заданны в одном направлении, по часовой стрелке или против - не важно
@@ -49,7 +50,6 @@ bool trproof (std::vector<double> &coords, std::vector<int> &triangles) {
     polygon->inserttriangle(triangles);// инициализация треугольников
     //delete &triangles;
 
-
     if (polygon->trianglescheck()) {
         bool proof = polygon->dcheck(*polygon);
         if (!proof) {
@@ -62,7 +62,6 @@ bool trproof (std::vector<double> &coords, std::vector<int> &triangles) {
         std::cout<<"Triangulation is not correct "<<'\n';
         return false;
     }
-
 }
 
 int main() {

@@ -306,6 +306,10 @@ int List::lendiag (int ind1, int ind2) const {
     return std::min(abs(ind2-ind1),size-abs(ind2-ind1));
 }
 
+int List::lendel(int ind1, int ind2) const {
+    return std::max(abs(ind2-ind1),size-abs(ind2-ind1)) - std::min(abs(ind2-ind1),size-abs(ind2-ind1));
+}
+
 
 
 bool List::dcheck(List& partpol) {
@@ -317,9 +321,14 @@ bool List::dcheck(List& partpol) {
     }
     // Найдем максимальную диагональ
     int mdind = 0;
+    int ld = 0;
     for (int i = 0; i < partpol.diagonals.size(); ++i ) {
         std::pair<Node*,Node*> diag = partpol.diagonals[i];
-        if (partpol.lendiag(diag.first->indN,diag.second->indN)>mdind) {
+        //std::cout<<"lendig =  "<<partpol.lendiag(diag.first->indN,diag.second->indN)<<'\n';
+        //std::cout<<"lendel =  "<<partpol.lendel(diag.first->indN,diag.second->indN)<<'\n';
+        //int lendig = partpol.lendiag(diag.first->indN,diag.second->indN);
+        if (partpol.lendiag(diag.first->indN,diag.second->indN)>ld) {
+            ld = partpol.lendiag(diag.first->indN,diag.second->indN);
             mdind = i;
         }
     }
@@ -327,7 +336,7 @@ bool List::dcheck(List& partpol) {
     int md1 = mdiag.first->indN;
     int md2 = mdiag.second->indN;
 
-    //std::cout<<"Max diagonal whith indexes "<<md1<<", "<<md2<<'\n';
+    //std::cout<<"Max diagonal whith indexes "<<md1<<", "<<md2<<" with len "<<partpol.lendiag(md1,md2)<<std::endl;
 
     // Проверим, не лежит ли она снаружи
     Node* dmid = new Node;

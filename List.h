@@ -10,11 +10,13 @@
 
 class Node {  //узел списка(в данной задаче-вершина многоугольника)
 public:
-    double x, y;//координаты текущей точки
-    int indN;  // индекс точки в многоугольнике
-    Node *prev, *next; //указатели на предыдущую и следующую вершины
+    double x, y = 0;//координаты текущей точки
+    int indN = 0;  // индекс точки в многоугольнике
+    Node *prev, *next = nullptr; //указатели на предыдущую и следующую вершины
     //конструктор по умолчанию
-    explicit Node (double a = 0.0, double b = 0.0, int ind_=0): x(a), y(b),indN(ind_), prev(nullptr), next(nullptr) {}
+    explicit Node (double a = 0.0, double b = 0.0, int ind_=0): x(a), y(b),indN(ind_), prev(nullptr), next(nullptr) {
+        //std::cout<<"Node"<<'\n';
+    }
 };
 
 
@@ -24,15 +26,16 @@ public:
     Node* y = nullptr;
     Node* z = nullptr;
     std::string tdir = "unknown";
+
 };
 
 
 
 class List { //кольцевой двусвязный список(будет содержать координаты многоугольника)
 public:
-    int size; //количество вершин
-    Node* cur; //указатель на текущую вершину (legacy)
-    Node* root;// первая вершина с нулевым индексом
+    int size = 0; //количество вершин
+    Node* cur = nullptr; //указатель на текущую вершину (legacy)
+    Node* root = nullptr;// первая вершина с нулевым индексом
     std::vector <Node*> nodeinds = {};
     //Направление, в котором заданы вершины. Возможные значения: clockwise, count_clockwise, error, unknown
     std::string ldir = "unknown";
@@ -40,14 +43,16 @@ public:
     std::vector <std::pair<Node*,Node*>> diagonals = {};
     double infin = 0;
 
-
     explicit List (int s = 0, Node* tmp = nullptr): size(s), cur(tmp), root(tmp) {}
-
     ~List() {
-        //std::cout<<"Deleted polygon with size "<<size<<'\n';
+        if (nodeinds.size()!=size) {
+            createnodeinds();
+        }
+        for (auto nd:nodeinds) {
+            delete nd;
+        }
+        //std::cout<<"Deleted List "<<size<<'\n';
     }
-
-
 
     bool is_empty () const {
         return size == 0;
@@ -75,6 +80,7 @@ public:
 private:
     static bool boundingboxcheck(double a, double b, double c, double d);//для вырожденного случая когда отрезки коллинеарны проверка проверка пересечения двух отрезков отдельно
     int lendiag(int ind1, int ind2) const;
+    int lendel(int ind1, int ind2) const;
 
 };
 
