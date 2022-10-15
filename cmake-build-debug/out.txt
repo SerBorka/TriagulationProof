@@ -1,0 +1,2 @@
+Number of triangles is 8
+Triangulation is correct 
